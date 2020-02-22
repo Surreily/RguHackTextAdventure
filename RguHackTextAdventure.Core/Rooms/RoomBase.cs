@@ -1,13 +1,19 @@
-﻿using RguHackTextAdventure.Core.RoomLinker;
+﻿using RguHackTextAdventure.Core.Items;
+using RguHackTextAdventure.Core.RoomLinker;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core.Rooms {
     public abstract class RoomBase {
+        private readonly List<ItemBase> _items;
+
         private bool _hasBeenDesrcibed;
 
         public RoomBase()
         {
             _hasBeenDesrcibed = false;
+            _items = new List<ItemBase>();
+
         }
 
         public RoomLinkerBase NorthRoomLinker { get; set; }
@@ -15,10 +21,15 @@ namespace RguHackTextAdventure.Core.Rooms {
         public RoomLinkerBase SouthRoomLinker { get; set; }
         public RoomLinkerBase WestRoomLinker { get; set; }
 
+        public List<ItemBase> Items {
+            get { return _items; }
+        }
+
         public void Describe(StringBuilder builder)
         {
             DescribeRoom(builder);
             DescribeRoomLinkers(builder);
+            DescribeItems(builder);
         }
 
         public virtual void DescribeRoom(StringBuilder builder) {
@@ -56,6 +67,21 @@ namespace RguHackTextAdventure.Core.Rooms {
             if (WestRoomLinker != null) {
                 builder.Append("To the West: ");
                 WestRoomLinker.Describe(builder);
+                builder.AppendLine();
+            }
+        }
+
+        public virtual void DescribeItems(StringBuilder builder) {
+            if (Items.Count == 0) {
+                builder.AppendLine("There are no items in this room.");
+                return;
+            }
+
+            builder.AppendLine("You can see the following in this room: ");
+
+            foreach (ItemBase item in Items) {
+                builder.Append(" - ");
+                builder.Append(item.Name);
                 builder.AppendLine();
             }
         }

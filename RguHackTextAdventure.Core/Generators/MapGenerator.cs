@@ -1,4 +1,5 @@
 ﻿using RguHackTextAdventure.Core.Items;
+using RguHackTextAdventure.Core.Items.Keys;
 using RguHackTextAdventure.Core.RoomLinker;
 using RguHackTextAdventure.Core.RoomLinker.Doors;
 using RguHackTextAdventure.Core.Rooms;
@@ -123,7 +124,7 @@ namespace RguHackTextAdventure.Core.Generators {
             }
 
             // Add items to the room.
-            // TODO: Add items.
+            AddItemsToRoom(newRoom);
 
             // Potentially add more rooms.
             if (_random.Next(0, 12) == 0) {
@@ -134,6 +135,21 @@ namespace RguHackTextAdventure.Core.Generators {
 
             for (int i = 0; i < roomsToAdd; i++) {
                 AddRoom(newRoomX, newRoomY);
+            }
+        }
+
+        private void AddItemsToRoom(RoomBase room) {
+            // Keys.
+            if (_random.Next(0, 5) == 0) {
+                int keyLevel = 0;
+
+                for (int i = 0; i < 2; i++) {
+                    if (_random.Next(0, 5) == 0) {
+                        keyLevel++;
+                    }
+                }
+
+                room.Items.Add(new SmallKeyItem(keyLevel));
             }
         }
     }

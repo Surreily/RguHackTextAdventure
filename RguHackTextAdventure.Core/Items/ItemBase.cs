@@ -1,8 +1,11 @@
-﻿namespace RguHackTextAdventure.Core.Items
+﻿using System.Text;
+
+namespace RguHackTextAdventure.Core.Items
 {
-    public class ItemBase
+    public abstract class ItemBase
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public abstract string Name { get; }
+
+        public abstract void Describe(StringBuilder builder);
     }
 }

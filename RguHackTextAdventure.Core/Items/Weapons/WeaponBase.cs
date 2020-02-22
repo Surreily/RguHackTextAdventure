@@ -1,4 +1,4 @@
 ﻿namespace RguHackTextAdventure.Core.Items.Weapons {
-    public class WeaponBase {
+    public abstract class WeaponBase {
     }
 }
