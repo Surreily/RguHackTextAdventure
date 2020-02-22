@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RguHackTextAdventure.Client", "RguHackTextAdventure.Client\RguHackTextAdventure.Client.csproj", "{2EA63244-97BF-4BFF-AA69-89F0F8052277}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RguHackTextAdventure.Core", "RguHackTextAdventure.Core\RguHackTextAdventure.Core.csproj", "{617DB904-CB4B-4259-883F-2FA8D919F385}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EA63244-97BF-4BFF-AA69-89F0F8052277}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EA63244-97BF-4BFF-AA69-89F0F8052277}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EA63244-97BF-4BFF-AA69-89F0F8052277}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EA63244-97BF-4BFF-AA69-89F0F8052277}.Release|Any CPU.Build.0 = Release|Any CPU
+		{617DB904-CB4B-4259-883F-2FA8D919F385}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{617DB904-CB4B-4259-883F-2FA8D919F385}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{617DB904-CB4B-4259-883F-2FA8D919F385}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{617DB904-CB4B-4259-883F-2FA8D919F385}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C0E64BBD-9A71-41C5-9FB7-3C6E1813D182}
+	EndGlobalSection
+EndGlobal
