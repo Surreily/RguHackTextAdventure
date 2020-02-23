@@ -12,12 +12,18 @@ namespace RguHackTextAdventure.Core {
         private int _health;
         private int _money;
         private List<ItemBase> _inventory;
+        private bool _hasWon;
 
         public Controller(RoomBase currentRoom, int health, int money) {
             _currentRoom = currentRoom;
             _health = health;
             _money = money;
             _inventory = new List<ItemBase>();
+            _hasWon = false;
+        }
+
+        public bool HasWon {
+            get { return _hasWon; }
         }
 
         public void DescribeRoom(StringBuilder builder) {
@@ -149,7 +155,10 @@ namespace RguHackTextAdventure.Core {
                 return;
             }
             
-            // TODO: Implement this.
+            if (item.Use(builder)) {
+                _hasWon = true;
+                builder.AppendLine("CONGRATULATIONS! You won!");
+            }
         }
 
         private void UseItemOnTarget(StringBuilder builder, string itemName, string targetName) {

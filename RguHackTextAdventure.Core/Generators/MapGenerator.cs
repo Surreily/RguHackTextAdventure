@@ -1,4 +1,5 @@
 ﻿using RguHackTextAdventure.Core.Items;
+using RguHackTextAdventure.Core.Items.Consumables;
 using RguHackTextAdventure.Core.Items.Keys;
 using RguHackTextAdventure.Core.RoomLinker;
 using RguHackTextAdventure.Core.RoomLinker.Doors;
@@ -16,7 +17,8 @@ namespace RguHackTextAdventure.Core.Generators {
         private int _mapWidth;
         private int _mapHeight;
 
-        private RoomBase[,] _rooms;
+        private RoomBase[,] _roomsGrid;
+        private List<RoomBase> _rooms;
         private List<ItemBase> _availableItems;
 
         public MapGenerator(int mapWidth, int mapHeight, Random random) {
@@ -43,7 +45,8 @@ namespace RguHackTextAdventure.Core.Generators {
             }
 
             // Prepare the grid of rooms.
-            _rooms = new RoomBase[_mapWidth, _mapHeight];
+            _roomsGrid = new RoomBase[_mapWidth, _mapHeight];
+            _rooms = new List<RoomBase>();
             _availableItems = new List<ItemBase>();
 
             // Create a start room.
@@ -52,11 +55,14 @@ namespace RguHackTextAdventure.Core.Generators {
 
             RoomBase startRoom = new DungeonRoom();
 
-            _rooms[startRoomX, startRoomY] = startRoom;
+            _roomsGrid[startRoomX, startRoomY] = startRoom;
 
             for (int i = 0; i < 4; i++) {
                 AddRoom(startRoomX, startRoomY);
             }
+
+            // Add the LEGO set (win condition) to a random room.
+            _rooms[_random.Next(0, _rooms.Count - 1)].Items.Add(new LegoSet());
 
             return startRoom;
         }
@@ -89,21 +95,22 @@ namespace RguHackTextAdventure.Core.Generators {
             }
 
             // Only create a room there if there is space.
-            if (_rooms[newRoomX, newRoomY] != null) {
+            if (_roomsGrid[newRoomX, newRoomY] != null) {
                 return;
             }
 
             // Get the current room.
-            RoomBase currentRoom = _rooms[currentRoomX, currentRoomY];
+            RoomBase currentRoom = _roomsGrid[currentRoomX, currentRoomY];
 
             // Create a room.
             RoomBase newRoom = new DungeonRoom();
-            _rooms[newRoomX, newRoomY] = newRoom;
+            _roomsGrid[newRoomX, newRoomY] = newRoom;
+            _rooms.Add(newRoom);
 
             // Create a room linker.
             RoomLinkerBase newRoomLinker;
 
-            if (_random.Next(0, 5) == 0 && _availableItems.Any(i => i is SmallKeyItem)) {
+            if (_random.Next(0, 3) == 0 && _availableItems.Any(i => i is SmallKeyItem)) {
                 newRoomLinker = new SteelDoorRoomLinker() {
                     SourceRoom = currentRoom,
                     DestinationRoom = newRoom,

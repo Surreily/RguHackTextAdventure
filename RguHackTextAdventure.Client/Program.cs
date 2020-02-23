@@ -11,7 +11,7 @@ namespace RguHackTextAdventure.Client {
             Random random = new Random();
 
             // Generate a map.
-            MapGenerator generator = new MapGenerator(500, 500, random);
+            MapGenerator generator = new MapGenerator(6, 3, random);
             RoomBase startRoom = generator.Generate();
 
             // Prepare the game controller.
@@ -22,7 +22,7 @@ namespace RguHackTextAdventure.Client {
             Console.Write(builder.ToString());
 
             // Main game loop.
-            while (true) {
+            while (!controller.HasWon) {
                 string command = Console.ReadLine();
 
                 command = command.Trim().ToLowerInvariant();
@@ -31,6 +31,8 @@ namespace RguHackTextAdventure.Client {
                 controller.ExecuteCommand(builder, command);
                 Console.Write(builder.ToString());
             }
+
+            Console.ReadLine();
         }
     }
 }
