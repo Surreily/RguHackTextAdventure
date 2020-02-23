@@ -1,6 +1,7 @@
 ﻿using RguHackTextAdventure.Core.Items;
 using RguHackTextAdventure.Core.Rooms;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core.RoomLinker {
@@ -8,6 +9,7 @@ namespace RguHackTextAdventure.Core.RoomLinker {
         public RoomBase SourceRoom { get; set; }
         public RoomBase DestinationRoom { get; set; }
 
+        public abstract List<string> Aliases { get; }
         public abstract bool IsOpen { get; }
 
         public abstract void Describe(StringBuilder builder);

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using RguHackTextAdventure.Core.Items;
 using RguHackTextAdventure.Core.Items.Keys;
 
@@ -8,6 +9,10 @@ namespace RguHackTextAdventure.Core.RoomLinker.Doors {
 
         public SteelDoorRoomLinker() {
             _isOpen = false;
+        }
+
+        public override List<string> Aliases {
+            get { return new List<string> { "door", "lock", "keyhole" }; }
         }
 
         public override bool IsOpen {

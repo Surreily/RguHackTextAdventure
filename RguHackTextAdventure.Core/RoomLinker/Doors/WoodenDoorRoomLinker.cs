@@ -1,7 +1,12 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 
 namespace RguHackTextAdventure.Core.RoomLinker.Doors {
     public class WoodenDoorRoomLinker : RoomLinkerBase {
+        public override List<string> Aliases {
+            get { return new List<string> { "door" }; }
+        }
+
         public override bool IsOpen {
             get { return false; }
         }

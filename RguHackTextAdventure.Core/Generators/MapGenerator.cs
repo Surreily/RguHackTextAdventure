@@ -6,6 +6,7 @@ using RguHackTextAdventure.Core.Rooms;
 using RguHackTextAdventure.Core.Rooms.Dungeon;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RguHackTextAdventure.Core.Generators {
     public class MapGenerator {
@@ -43,6 +44,7 @@ namespace RguHackTextAdventure.Core.Generators {
 
             // Prepare the grid of rooms.
             _rooms = new RoomBase[_mapWidth, _mapHeight];
+            _availableItems = new List<ItemBase>();
 
             // Create a start room.
             int startRoomX = _random.Next(1, _mapWidth - 2);
@@ -99,10 +101,19 @@ namespace RguHackTextAdventure.Core.Generators {
             _rooms[newRoomX, newRoomY] = newRoom;
 
             // Create a room linker.
-            RoomLinkerBase newRoomLinker = new StoneArchRoomLinker {
-                SourceRoom = currentRoom,
-                DestinationRoom = newRoom,
-            };
+            RoomLinkerBase newRoomLinker;
+
+            if (_random.Next(0, 5) == 0 && _availableItems.Any(i => i is SmallKeyItem)) {
+                newRoomLinker = new SteelDoorRoomLinker() {
+                    SourceRoom = currentRoom,
+                    DestinationRoom = newRoom,
+                };
+            } else {
+                newRoomLinker = new StoneArchRoomLinker {
+                    SourceRoom = currentRoom,
+                    DestinationRoom = newRoom,
+                };
+            }
 
             switch (direction) {
                 case 0:
@@ -131,7 +142,7 @@ namespace RguHackTextAdventure.Core.Generators {
                 return;
             }
 
-            int roomsToAdd = _random.Next(1, 3);
+            int roomsToAdd = _random.Next(1, 8);
 
             for (int i = 0; i < roomsToAdd; i++) {
                 AddRoom(newRoomX, newRoomY);
@@ -140,7 +151,7 @@ namespace RguHackTextAdventure.Core.Generators {
 
         private void AddItemsToRoom(RoomBase room) {
             // Keys.
-            if (_random.Next(0, 5) == 0) {
+            if (_random.Next(0, 3) == 0) {
                 int keyLevel = 0;
 
                 for (int i = 0; i < 2; i++) {
@@ -149,7 +160,9 @@ namespace RguHackTextAdventure.Core.Generators {
                     }
                 }
 
-                room.Items.Add(new SmallKeyItem(keyLevel));
+                ItemBase item = new SmallKeyItem(keyLevel);
+                room.Items.Add(item);
+                _availableItems.Add(item);
             }
         }
     }

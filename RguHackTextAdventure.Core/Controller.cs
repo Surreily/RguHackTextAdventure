@@ -53,6 +53,7 @@ namespace RguHackTextAdventure.Core {
 
             if (command == "i") {
                 LookAtInventory(builder);
+                return;
             }
 
             // Multi-part commands.
@@ -60,6 +61,21 @@ namespace RguHackTextAdventure.Core {
 
             if (commandParts[0] == "get" && commandParts.Length == 2) {
                 GetItem(builder, commandParts[1]);
+                return;
+            }
+
+            if (commandParts[0] == "use") {
+                if (commandParts.Length == 2) {
+                    UseItem(builder, commandParts[1]);
+                } else if (commandParts.Length == 4) {
+                    if (commandParts[2] == "on") {
+                        UseItemOnTarget(builder, commandParts[1], commandParts[3]);
+                        return;
+                    } else if (commandParts[2] == "at") {
+                        UseItemAtLocation(builder, commandParts[1], commandParts[3]);
+                        return;
+                    }
+                }
             }
         }
 
@@ -124,6 +140,103 @@ namespace RguHackTextAdventure.Core {
             _inventory.Add(item);
 
             builder.AppendLine("You got the " + itemName + ".");
+        }
+
+        private void UseItem(StringBuilder builder, string itemName) {
+            ItemBase item = GetItemFromInventory(builder, itemName);
+
+            if (item == null) {
+                return;
+            }
+            
+            // TODO: Implement this.
+        }
+
+        private void UseItemOnTarget(StringBuilder builder, string itemName, string targetName) {
+            ItemBase item = GetItemFromInventory(builder, itemName);
+
+            if (item == null) {
+                return;
+            }
+
+            List<RoomLinkerBase> targetRoomLinkers = GetTargetRoomLinkers(targetName);
+
+            if (targetRoomLinkers.Count == 0) {
+                builder.AppendLine("You do not see a " + targetName + ".");
+                return;
+            }
+
+            if (targetRoomLinkers.Count > 1) {
+                builder.AppendLine("You see more than one " + targetName + ". Which one?");
+                return;
+            }
+
+            if (targetRoomLinkers.First().UseItem(builder, item)) {
+                _inventory.Remove(item);
+            }
+        }
+
+        private void UseItemAtLocation(StringBuilder builder, string itemName, string locationName) {
+            ItemBase item = GetItemFromInventory(builder, itemName);
+
+            if (item == null) {
+                return;
+            }
+
+            RoomLinkerBase target = null;
+
+            if (locationName == "n" || locationName == "north") {
+                target = _currentRoom.NorthRoomLinker;
+            } else if (locationName == "e" || locationName == "east") {
+                target = _currentRoom.EastRoomLinker;
+            } else if (locationName == "s" || locationName == "south") {
+                target = _currentRoom.SouthRoomLinker;
+            } else if (locationName == "w" || locationName == "west") {
+                target = _currentRoom.WestRoomLinker;
+            }
+
+            if (target == null) {
+                builder.AppendLine("There is nothing there.");
+                return;
+            }
+
+            if (target.UseItem(builder, item)) {
+                _inventory.Remove(item);
+            }
+        }
+
+        private ItemBase GetItemFromInventory(StringBuilder builder, string itemName) {
+            ItemBase item = _inventory
+                .FirstOrDefault(i => i.Aliases
+                    .Any(a => a == itemName));
+
+            if (item == null) {
+                builder.AppendLine("You don't have a " + itemName + ".");
+            }
+
+            return item;
+        }
+
+        private List<RoomLinkerBase> GetTargetRoomLinkers(string targetName) {
+            List<RoomLinkerBase> roomLinkers = new List<RoomLinkerBase>();
+
+            if (_currentRoom.NorthRoomLinker?.Aliases.Any(a => a == targetName) ?? false) {
+                roomLinkers.Add(_currentRoom.NorthRoomLinker);
+            }
+
+            if (_currentRoom.EastRoomLinker?.Aliases.Any(a => a == targetName) ?? false) {
+                roomLinkers.Add(_currentRoom.EastRoomLinker);
+            }
+
+            if (_currentRoom.SouthRoomLinker?.Aliases.Any(a => a == targetName) ?? false) {
+                roomLinkers.Add(_currentRoom.SouthRoomLinker);
+            }
+
+            if (_currentRoom.WestRoomLinker?.Aliases.Any(a => a == targetName) ?? false) {
+                roomLinkers.Add(_currentRoom.WestRoomLinker);
+            }
+
+            return roomLinkers;
         }
     }
 }

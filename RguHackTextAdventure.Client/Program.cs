@@ -11,7 +11,7 @@ namespace RguHackTextAdventure.Client {
             Random random = new Random();
 
             // Generate a map.
-            MapGenerator generator = new MapGenerator(5, 5, random);
+            MapGenerator generator = new MapGenerator(500, 500, random);
             RoomBase startRoom = generator.Generate();
 
             // Prepare the game controller.

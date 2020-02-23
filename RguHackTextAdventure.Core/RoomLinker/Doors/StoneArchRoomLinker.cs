@@ -1,8 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core.RoomLinker.Doors {
     public class StoneArchRoomLinker : RoomLinkerBase {
+        public override List<string> Aliases {
+            get { return new List<string> { "arch", "archway" }; }
+        }
+
         public override bool IsOpen {
             get { return true; }
         }
