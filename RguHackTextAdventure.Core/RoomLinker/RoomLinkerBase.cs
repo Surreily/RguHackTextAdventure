@@ -1,4 +1,5 @@
-﻿using RguHackTextAdventure.Core.Rooms;
+﻿using RguHackTextAdventure.Core.Items;
+using RguHackTextAdventure.Core.Rooms;
 using System;
 using System.Text;
 
@@ -11,6 +12,11 @@ namespace RguHackTextAdventure.Core.RoomLinker {
 
         public abstract void Describe(StringBuilder builder);
         public abstract void DescribeClosed(StringBuilder builder);
+        
+        public virtual bool UseItem(StringBuilder builder, ItemBase item) {
+            builder.Append("You try to use the " + item.Name + ", but nothing happens.");
+            return false;
+        }
 
         public RoomBase GetOppositeRoom(RoomBase room) {
             if (SourceRoom == room && DestinationRoom != room) {

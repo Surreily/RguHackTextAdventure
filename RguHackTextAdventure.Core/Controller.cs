@@ -1,5 +1,7 @@
-﻿using RguHackTextAdventure.Core.RoomLinker;
+﻿using RguHackTextAdventure.Core.Items;
+using RguHackTextAdventure.Core.RoomLinker;
 using RguHackTextAdventure.Core.Rooms;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core {
@@ -8,11 +10,13 @@ namespace RguHackTextAdventure.Core {
         private RoomBase _currentRoom;
         private int _health;
         private int _money;
+        private List<ItemBase> _inventory;
 
         public Controller(RoomBase currentRoom, int health, int money) {
             _currentRoom = currentRoom;
             _health = health;
             _money = money;
+            _inventory = new List<ItemBase>();
         }
 
         public void DescribeRoom(StringBuilder builder) {

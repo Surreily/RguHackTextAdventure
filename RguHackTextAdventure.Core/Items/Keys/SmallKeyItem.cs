@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core.Items.Keys {
@@ -15,6 +16,10 @@ namespace RguHackTextAdventure.Core.Items.Keys {
 
         public override string Name {
             get { return "Small " + GetKeyMaterial() + " key"; }
+        }
+
+        public override List<string> Aliases {
+            get { return new List<string>() { "key" }; }
         }
 
         public override void Describe(StringBuilder builder) {
