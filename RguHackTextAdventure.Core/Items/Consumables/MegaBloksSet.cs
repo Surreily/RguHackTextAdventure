@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace RguHackTextAdventure.Core.Items.Consumables {
-    public class LegoSet : ItemBase {
+    class MegaBloksSet : ItemBase {
         public override string Name {
-            get { return "LEGO set"; }
+            get { return "MEGABLOKS Set"; }
         }
 
         public override List<string> Aliases {
-            get { return new List<string> { "lego", "set" }; }
+            get { return new List<string> { "megabloks" }; }
         }
 
         public override void Describe(StringBuilder builder) {
-            builder.AppendLine("A LEGO set! Could you build something with this?");
+            builder.Append("It's MEGABLOKS set! I wonder what you could build with this...");
         }
 
         public override bool Use(StringBuilder builder) {
-            builder.AppendLine("You build a hole with the LEGO set and escape through it. You win!");
-            builder.AppendLine("~ CONGRATULATIONS! ~");
+            builder.AppendLine("I am disappointed in you. You lose.");
+            builder.AppendLine("~ GAME OVER ~");
             return true;
         }
     }

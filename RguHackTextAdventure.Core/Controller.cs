@@ -157,7 +157,6 @@ namespace RguHackTextAdventure.Core {
             
             if (item.Use(builder)) {
                 _hasWon = true;
-                builder.AppendLine("CONGRATULATIONS! You won!");
             }
         }
 

@@ -171,6 +171,13 @@ namespace RguHackTextAdventure.Core.Generators {
                 room.Items.Add(item);
                 _availableItems.Add(item);
             }
+
+            // MEGABLOKS sets.
+            if (_random.Next(0, 8) == 0) {
+                ItemBase item = new MegaBloksSet();
+                room.Items.Add(item);
+                _availableItems.Add(item);
+            }
         }
     }
 }
