@@ -2,6 +2,7 @@
 using RguHackTextAdventure.Core.RoomLinker;
 using RguHackTextAdventure.Core.Rooms;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace RguHackTextAdventure.Core {
@@ -49,6 +50,17 @@ namespace RguHackTextAdventure.Core {
                 Look(builder);
                 return;
             }
+
+            if (command == "i") {
+                LookAtInventory(builder);
+            }
+
+            // Multi-part commands.
+            string[] commandParts = command.Split(' ');
+
+            if (commandParts[0] == "get" && commandParts.Length == 2) {
+                GetItem(builder, commandParts[1]);
+            }
         }
 
         private void GoNorth(StringBuilder builder) {
@@ -84,6 +96,34 @@ namespace RguHackTextAdventure.Core {
 
         private void Look(StringBuilder builder) {
             _currentRoom.Describe(builder);
+        }
+
+        private void LookAtInventory(StringBuilder builder) {
+            if (_inventory.Count == 0) {
+                builder.AppendLine("You don't have anything.");
+                return;
+            }
+
+            builder.AppendLine("You have the following items:");
+
+            foreach (ItemBase item in _inventory) {
+                builder.AppendLine(" - " + item.Name);
+            }
+        }
+
+        private void GetItem(StringBuilder builder, string itemName) {
+            ItemBase item = _currentRoom.Items
+                .FirstOrDefault(i => i.Aliases.Any(a => a == itemName));
+
+            if (item == null) {
+                builder.AppendLine("You don't see a " + itemName + ".");
+                return;
+            }
+
+            _currentRoom.Items.Remove(item);
+            _inventory.Add(item);
+
+            builder.AppendLine("You got the " + itemName + ".");
         }
     }
 }
